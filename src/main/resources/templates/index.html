@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h1>My Collection</h1>
+        <p class="lead">Track your books, comics, and video games.</p>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h2 class="card-title" th:text="${bookCount}">0</h2>
+                        <p class="card-text">Books</p>
+                        <a th:href="@{/books}" class="btn btn-primary">View Books</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h2 class="card-title" th:text="${comicCount}">0</h2>
+                        <p class="card-text">Comics</p>
+                        <a th:href="@{/comics}" class="btn btn-primary">View Comics</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h2 class="card-title" th:text="${gameCount}">0</h2>
+                        <p class="card-text">Video Games</p>
+                        <a th:href="@{/games}" class="btn btn-primary">View Games</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

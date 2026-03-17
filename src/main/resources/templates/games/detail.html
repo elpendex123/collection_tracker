@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>Game Detail</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h1 th:text="${game.title}">Game Title</h1>
+
+        <dl class="row mt-4">
+            <dt class="col-sm-3">Console</dt>
+            <dd class="col-sm-9" th:text="${game.console ?: '-'}">Console</dd>
+
+            <dt class="col-sm-3">Publisher</dt>
+            <dd class="col-sm-9" th:text="${game.publisher ?: '-'}">Publisher</dd>
+
+            <dt class="col-sm-3">Developer</dt>
+            <dd class="col-sm-9" th:text="${game.developer ?: '-'}">Developer</dd>
+
+            <dt class="col-sm-3">Genre</dt>
+            <dd class="col-sm-9" th:text="${game.genre ?: '-'}">Genre</dd>
+
+            <dt class="col-sm-3">ISBN</dt>
+            <dd class="col-sm-9" th:text="${game.isbn ?: '-'}">ISBN</dd>
+
+            <dt class="col-sm-3">Completion Status</dt>
+            <dd class="col-sm-9">
+                <span th:if="${game.completionStatus}"
+                      th:text="${game.completionStatus}"
+                      th:classappend="${game.completionStatus.name() == 'BEATEN' ? 'badge bg-success' : (game.completionStatus.name() == 'PLAYING' ? 'badge bg-warning' : (game.completionStatus.name() == 'DROPPED' ? 'badge bg-danger' : 'badge bg-secondary'))}">
+                </span>
+                <span th:unless="${game.completionStatus}">-</span>
+            </dd>
+
+            <dt class="col-sm-3">Format</dt>
+            <dd class="col-sm-9" th:text="${game.format ?: '-'}">Format</dd>
+
+            <dt class="col-sm-3">Notes</dt>
+            <dd class="col-sm-9" th:text="${game.notes ?: '-'}">Notes</dd>
+
+            <dt class="col-sm-3">Added</dt>
+            <dd class="col-sm-9" th:text="${#temporals.format(game.createdAt, 'yyyy-MM-dd HH:mm')}">Date</dd>
+        </dl>
+
+        <div class="mt-4">
+            <a th:href="@{/games/{id}/edit(id=${game.id})}" class="btn btn-primary">Edit</a>
+            <form th:action="@{/games/{id}/delete(id=${game.id})}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            <a th:href="@{/games}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</body>
+</html>

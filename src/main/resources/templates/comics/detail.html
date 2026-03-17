@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>Comic Detail</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h1 th:text="${comic.title}">Comic Title</h1>
+
+        <dl class="row mt-4">
+            <dt class="col-sm-3">Series</dt>
+            <dd class="col-sm-9" th:text="${comic.series ?: '-'}">Series</dd>
+
+            <dt class="col-sm-3">Issue Number</dt>
+            <dd class="col-sm-9" th:text="${comic.issueNumber ?: '-'}">Issue</dd>
+
+            <dt class="col-sm-3">ISBN</dt>
+            <dd class="col-sm-9" th:text="${comic.isbn ?: '-'}">ISBN</dd>
+
+            <dt class="col-sm-3">Writer</dt>
+            <dd class="col-sm-9" th:text="${comic.writer ?: '-'}">Writer</dd>
+
+            <dt class="col-sm-3">Artist</dt>
+            <dd class="col-sm-9" th:text="${comic.artist ?: '-'}">Artist</dd>
+
+            <dt class="col-sm-3">Read Status</dt>
+            <dd class="col-sm-9">
+                <span th:if="${comic.readStatus}"
+                      th:text="${comic.readStatus}"
+                      th:classappend="${comic.readStatus.name() == 'READ' ? 'badge bg-success' : (comic.readStatus.name() == 'IN_PROGRESS' ? 'badge bg-warning' : 'badge bg-secondary')}">
+                </span>
+                <span th:unless="${comic.readStatus}">-</span>
+            </dd>
+
+            <dt class="col-sm-3">Format</dt>
+            <dd class="col-sm-9" th:text="${comic.format ?: '-'}">Format</dd>
+
+            <dt class="col-sm-3">Notes</dt>
+            <dd class="col-sm-9" th:text="${comic.notes ?: '-'}">Notes</dd>
+
+            <dt class="col-sm-3">Added</dt>
+            <dd class="col-sm-9" th:text="${#temporals.format(comic.createdAt, 'yyyy-MM-dd HH:mm')}">Date</dd>
+        </dl>
+
+        <div class="mt-4">
+            <a th:href="@{/comics/{id}/edit(id=${comic.id})}" class="btn btn-primary">Edit</a>
+            <form th:action="@{/comics/{id}/delete(id=${comic.id})}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            <a th:href="@{/comics}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</body>
+</html>

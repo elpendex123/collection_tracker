@@ -1,0 +1,101 @@
+title,author,isbn,publisher,published_year,genre,read_status,format,notes
+Dune,Frank Herbert,9780441013593,Chilton Books,1965,Sci-Fi,READ,PHYSICAL,Classic science fiction epic
+Foundation,Isaac Asimov,9780553293357,Gnome Press,1951,Sci-Fi,READ,DIGITAL,First in the Foundation series
+Neuromancer,William Gibson,9780441569595,Ace Books,1984,Sci-Fi,UNREAD,PHYSICAL,Cyberpunk pioneer
+The Left Hand of Darkness,Ursula K. Le Guin,9780441478125,Ace Books,1969,Sci-Fi,READ,DIGITAL,Gender and society on an alien world
+Ender's Game,Orson Scott Card,9780812550702,Tor Books,1985,Sci-Fi,READ,PHYSICAL,Military sci-fi classic
+The Hitchhiker's Guide to the Galaxy,Douglas Adams,9780345391803,Pan Books,1979,Sci-Fi,READ,PHYSICAL,Comedic space adventure
+Hyperion,Dan Simmons,9780385249492,Doubleday,1989,Sci-Fi,IN_PROGRESS,DIGITAL,Canterbury Tales in space
+The Name of the Wind,Patrick Rothfuss,9780756404741,DAW Books,2007,Fantasy,UNREAD,PHYSICAL,First of the Kingkiller Chronicle
+The Way of Kings,Brandon Sanderson,9780765326355,Tor Books,2010,Fantasy,IN_PROGRESS,PHYSICAL,Epic Stormlight Archive opener
+A Game of Thrones,George R.R. Martin,9780553103540,Bantam Books,1996,Fantasy,READ,DIGITAL,Westeros political intrigue begins
+The Fellowship of the Ring,J.R.R. Tolkien,9780261102354,Allen & Unwin,1954,Fantasy,READ,PHYSICAL,The one ring sets out
+The Hobbit,J.R.R. Tolkien,9780261102217,Allen & Unwin,1937,Fantasy,READ,PHYSICAL,There and back again
+American Gods,Neil Gaiman,9780380973651,William Morrow,2001,Fantasy,READ,DIGITAL,Old gods in modern America
+The Blade Itself,Joe Abercrombie,9780575077836,Gollancz,2006,Fantasy,UNREAD,PHYSICAL,Grimdark fantasy opener
+Mistborn,Brandon Sanderson,9780765311788,Tor Books,2006,Fantasy,READ,PHYSICAL,Ash-falling dystopian magic
+The Lies of Locke Lamora,Scott Lynch,9780553588941,Bantam Books,2006,Fantasy,IN_PROGRESS,DIGITAL,Thieves in a fantasy Venice
+Assassin's Apprentice,Robin Hobb,9780553565690,Bantam Books,1995,Fantasy,UNREAD,PHYSICAL,Royal bastard and his fate
+The Color of Magic,Terry Pratchett,9780862202019,Colin Smythe,1983,Fantasy,READ,DIGITAL,Discworld begins
+Good Omens,Terry Pratchett,9780060853983,Gollancz,1990,Fantasy,READ,PHYSICAL,Angel and demon save the world
+The Gunslinger,Stephen King,9780451210814,Donald M. Grant,1982,Horror,READ,PHYSICAL,The Dark Tower begins
+It,Stephen King,9780670813025,Viking Press,1986,Horror,READ,DIGITAL,Pennywise terrorizes Derry
+The Shining,Stephen King,9780385121675,Doubleday,1977,Horror,READ,PHYSICAL,Overlook Hotel madness
+Dracula,Bram Stoker,9780141439846,Archibald Constable,1897,Horror,READ,DIGITAL,The original vampire novel
+Frankenstein,Mary Shelley,9780141439471,Lackington Hughes,1818,Horror,READ,PHYSICAL,The modern Prometheus
+The Haunting of Hill House,Shirley Jackson,9780143039983,Viking Press,1959,Horror,UNREAD,DIGITAL,Classic haunted house tale
+House of Leaves,Mark Z. Danielewski,9780375703768,Pantheon Books,2000,Horror,IN_PROGRESS,PHYSICAL,Unconventional horror narrative
+Bird Box,Josh Malerman,9780062259653,Ecco Press,2014,Horror,READ,DIGITAL,Don't open your eyes
+The Road,Cormac McCarthy,9780307265432,Knopf,2006,Post-Apocalyptic,READ,PHYSICAL,Father and son cross a dying America
+Station Eleven,Emily St. John Mandel,9780385353304,Knopf,2014,Post-Apocalyptic,READ,DIGITAL,Civilization collapse and art
+World War Z,Max Brooks,9780307346612,Crown,2006,Post-Apocalyptic,READ,PHYSICAL,Oral history of the zombie war
+The Stand,Stephen King,9780385121682,Doubleday,1978,Post-Apocalyptic,UNREAD,PHYSICAL,Superflu decimates humanity
+1984,George Orwell,9780451524935,Secker & Warburg,1949,Dystopia,READ,DIGITAL,Big Brother is watching
+Brave New World,Aldous Huxley,9780060850524,Chatto & Windus,1932,Dystopia,READ,PHYSICAL,Soma and conditioning
+The Handmaid's Tale,Margaret Atwood,9780385490818,McClelland & Stewart,1985,Dystopia,READ,DIGITAL,Gilead's oppressive theocracy
+Fahrenheit 451,Ray Bradbury,9781451673319,Ballantine Books,1953,Dystopia,READ,PHYSICAL,Book burning future
+The Hunger Games,Suzanne Collins,9780439023481,Scholastic Press,2008,Dystopia,READ,DIGITAL,Panem's deadly spectacle
+Divergent,Veronica Roth,9780062024022,Katherine Tegen Books,2011,Dystopia,READ,PHYSICAL,Chicago faction society
+Ready Player One,Ernest Cline,9780307887436,Crown Publishers,2011,Sci-Fi,READ,DIGITAL,OASIS virtual world adventure
+Snow Crash,Neal Stephenson,9780553380958,Bantam Books,1992,Sci-Fi,READ,PHYSICAL,Metaverse origins
+The Martian,Andy Weir,9780804139021,Crown Publishers,2011,Sci-Fi,READ,DIGITAL,Stranded on Mars survival
+Project Hail Mary,Andy Weir,9780593135204,Ballantine Books,2021,Sci-Fi,READ,PHYSICAL,Solo mission to save Earth
+Recursion,Blake Crouch,9781524759780,Crown Publishers,2019,Sci-Fi,READ,DIGITAL,Memory and alternate timelines
+Dark Matter,Blake Crouch,9781101904220,Crown Publishers,2016,Sci-Fi,IN_PROGRESS,PHYSICAL,Multiverse thriller
+The Girl with the Dragon Tattoo,Stieg Larsson,9780307454546,Norstedts Förlag,2005,Mystery,READ,DIGITAL,Lisbeth Salander's debut
+Gone Girl,Gillian Flynn,9780307588371,Crown Publishers,2012,Mystery,READ,PHYSICAL,Marriage and deception
+The Da Vinci Code,Dan Brown,9780385504201,Doubleday,2003,Mystery,READ,DIGITAL,Symbologist unravels secrets
+Big Little Lies,Liane Moriarty,9781250051967,Flatiron Books,2014,Mystery,UNREAD,PHYSICAL,Suburban secrets unravel
+In the Woods,Tana French,9780670038602,Viking Press,2007,Mystery,READ,DIGITAL,Dublin Murder Squad begins
+Sharp Objects,Gillian Flynn,9780307341556,Shaye Areheart Books,2006,Mystery,READ,PHYSICAL,Journalist returns to hometown
+The Silent Patient,Alex Michaelides,9781250301697,Celadon Books,2019,Thriller,READ,DIGITAL,Mute murder suspect mystery
+The Woman in the Window,A.J. Finn,9780062678416,William Morrow,2018,Thriller,READ,PHYSICAL,Agoraphobic witnesses a crime
+Behind Closed Doors,B.A. Paris,9781250121004,St. Martin's Press,2016,Thriller,UNREAD,DIGITAL,Perfect marriage dark secrets
+The Girl on the Train,Paula Hawkins,9781594634024,Riverhead Books,2015,Thriller,READ,PHYSICAL,Commuter witnesses something
+I Am Pilgrim,Terry Hayes,9781439177723,Emily Bestler Books,2013,Thriller,IN_PROGRESS,DIGITAL,Intelligence operative thriller
+The Alchemist,Paulo Coelho,9780062315007,HarperOne,1988,Literary Fiction,READ,PHYSICAL,A shepherd's personal legend
+The Kite Runner,Khaled Hosseini,9781594480003,Riverhead Books,2003,Literary Fiction,READ,DIGITAL,Afghanistan friendship and guilt
+A Thousand Splendid Suns,Khaled Hosseini,9781594483073,Riverhead Books,2007,Literary Fiction,READ,PHYSICAL,Afghan women endure hardship
+The Great Gatsby,F. Scott Fitzgerald,9780743273565,Charles Scribner's Sons,1925,Literary Fiction,READ,DIGITAL,The Jazz Age and lost dreams
+To Kill a Mockingbird,Harper Lee,9780061935466,J. B. Lippincott & Co,1960,Literary Fiction,READ,PHYSICAL,Racial injustice in the South
+Of Mice and Men,John Steinbeck,9780140177398,Covici Friede,1937,Literary Fiction,READ,DIGITAL,Friendship and broken dreams
+Catch-22,Joseph Heller,9781451626650,Simon & Schuster,1961,Satire,READ,PHYSICAL,WWII absurdist satire
+Slaughterhouse-Five,Kurt Vonnegut,9780385333481,Delacorte Press,1969,Satire,READ,DIGITAL,Billy Pilgrim unstuck in time
+The Hitchhiker's Guide Omnibus,Douglas Adams,9780330508537,Pan Books,2002,Sci-Fi,UNREAD,PHYSICAL,Complete five-part trilogy
+Flowers for Algernon,Daniel Keyes,9780156030304,Harcourt,1966,Sci-Fi,READ,DIGITAL,Intelligence experiment and its cost
+The Time Machine,H.G. Wells,9780141439976,William Heinemann,1895,Sci-Fi,READ,PHYSICAL,Victorian time traveler
+The War of the Worlds,H.G. Wells,9780141441030,William Heinemann,1898,Sci-Fi,READ,DIGITAL,Martian invasion of Earth
+20,000 Leagues Under the Sea,Jules Verne,9780140440882,Pierre-Jules Hetzel,1870,Adventure,READ,PHYSICAL,Captain Nemo's submarine world
+Journey to the Center of the Earth,Jules Verne,9780140440783,Pierre-Jules Hetzel,1864,Adventure,READ,DIGITAL,Expedition beneath the surface
+Treasure Island,Robert Louis Stevenson,9780141321004,Cassell and Company,1883,Adventure,READ,PHYSICAL,Pirates and buried treasure
+The Count of Monte Cristo,Alexandre Dumas,9780140449266,Journal des débats,1844,Adventure,READ,DIGITAL,Revenge after wrongful imprisonment
+Robinson Crusoe,Daniel Defoe,9780141439587,W. Taylor,1719,Adventure,READ,PHYSICAL,Survival on a deserted island
+Moby Dick,Herman Melville,9780142437247,Harper & Brothers,1851,Literary Fiction,UNREAD,PHYSICAL,Obsessive pursuit of the white whale
+Anna Karenina,Leo Tolstoy,9780143035008,The Russian Messenger,1878,Literary Fiction,READ,DIGITAL,Russian society and forbidden love
+Crime and Punishment,Fyodor Dostoevsky,9780143058144,The Russian Messenger,1866,Literary Fiction,READ,PHYSICAL,Murder guilt and redemption
+The Brothers Karamazov,Fyodor Dostoevsky,9780374528379,The Russian Messenger,1880,Literary Fiction,UNREAD,DIGITAL,Faith reason and morality
+Don Quixote,Miguel de Cervantes,9780060934347,Francisco de Robles,1605,Literary Fiction,UNREAD,PHYSICAL,The original novel of chivalry
+One Hundred Years of Solitude,Gabriel García Márquez,9780060883287,Editorial Sudamericana,1967,Magical Realism,READ,DIGITAL,Buendía family across generations
+Love in the Time of Cholera,Gabriel García Márquez,9780307389732,Editorial Oveja Negra,1985,Magical Realism,READ,PHYSICAL,Unrequited love over decades
+Beloved,Toni Morrison,9781400033416,Alfred A. Knopf,1987,Literary Fiction,READ,DIGITAL,Haunted by slavery's past
+The Color Purple,Alice Walker,9780156028356,Harcourt Brace,1982,Literary Fiction,READ,PHYSICAL,Southern Black women's resilience
+Invisible Man,Ralph Ellison,9780679732761,Random House,1952,Literary Fiction,READ,DIGITAL,Black identity in mid-century America
+Norwegian Wood,Haruki Murakami,9780375704024,Kodansha,1987,Literary Fiction,READ,PHYSICAL,Tokyo youth loss and longing
+Kafka on the Shore,Haruki Murakami,9781400079278,Shinchosha,2002,Magical Realism,IN_PROGRESS,DIGITAL,Parallel journeys in Japan
+The Wind-Up Bird Chronicle,Haruki Murakami,9780679775430,Shinchosha,1994,Magical Realism,UNREAD,PHYSICAL,Suburban mystery unfolds
+Siddhartha,Hermann Hesse,9780553208849,Suhrkamp Verlag,1922,Philosophy,READ,DIGITAL,Quest for enlightenment
+Steppenwolf,Hermann Hesse,9780312278670,Suhrkamp Verlag,1927,Philosophy,UNREAD,PHYSICAL,Identity and duality
+The Stranger,Albert Camus,9780679720201,Gallimard,1942,Philosophy,READ,DIGITAL,Absurdism and indifference
+The Trial,Franz Kafka,9780805209990,Verlag Die Schmiede,1925,Philosophy,READ,PHYSICAL,Surreal bureaucratic nightmare
+Man's Search for Meaning,Viktor Frankl,9780807014271,Verlag für Jugend und Volk,1946,Non-Fiction,READ,PHYSICAL,Logotherapy born in the camps
+Sapiens,Yuval Noah Harari,9780062316097,Dvir Publishing House,2011,Non-Fiction,READ,DIGITAL,Brief history of humankind
+Thinking Fast and Slow,Daniel Kahneman,9780374275631,Farrar Straus and Giroux,2011,Non-Fiction,READ,PHYSICAL,Dual system of human thought
+Educated,Tara Westover,9780399590504,Random House,2018,Memoir,READ,DIGITAL,Survivalist family to Cambridge
+The Glass Castle,Jeannette Walls,9780743247542,Scribner,2005,Memoir,READ,PHYSICAL,Unconventional nomadic childhood
+Born a Crime,Trevor Noah,9780399588174,Spiegel & Grau,2016,Memoir,READ,DIGITAL,Growing up in apartheid South Africa
+Atomic Habits,James Clear,9780735211292,Avery Publishing,2018,Self-Help,IN_PROGRESS,PHYSICAL,Tiny changes remarkable results
+The Power of Now,Eckhart Tolle,9781577314806,Namaste Publishing,1997,Self-Help,READ,DIGITAL,Present moment awareness
+Deep Work,Cal Newport,9781455586691,Grand Central Publishing,2016,Self-Help,READ,PHYSICAL,Rules for focused success
+Clean Code,Robert C. Martin,9780132350884,Prentice Hall,2008,Technology,READ,PHYSICAL,Writing readable maintainable code
+The Pragmatic Programmer,David Thomas,9780135957059,Addison-Wesley,1999,Technology,READ,DIGITAL,From journeyman to master dev
+The DevOps Handbook,Gene Kim,9781942788003,IT Revolution Press,2016,Technology,IN_PROGRESS,PHYSICAL,Principles of DevOps transformation

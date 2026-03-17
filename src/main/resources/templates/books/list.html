@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>Books</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Books</h1>
+            <a th:href="@{/books/new}" class="btn btn-success">Add Book</a>
+        </div>
+
+        <div th:if="${books.empty}" class="alert alert-info">
+            No books in your collection yet.
+        </div>
+
+        <table th:if="${!books.empty}" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Status</th>
+                    <th>Format</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book : ${books}">
+                    <td>
+                        <a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.title}">Title</a>
+                    </td>
+                    <td th:text="${book.author}">Author</td>
+                    <td th:text="${book.genre}">Genre</td>
+                    <td>
+                        <span th:if="${book.readStatus}"
+                              th:text="${book.readStatus}"
+                              th:classappend="${book.readStatus.name() == 'READ' ? 'badge bg-success' : (book.readStatus.name() == 'IN_PROGRESS' ? 'badge bg-warning' : 'badge bg-secondary')}">
+                        </span>
+                    </td>
+                    <td th:text="${book.format}">Format</td>
+                    <td>
+                        <a th:href="@{/books/{id}/edit(id=${book.id})}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <form th:action="@{/books/{id}/delete(id=${book.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

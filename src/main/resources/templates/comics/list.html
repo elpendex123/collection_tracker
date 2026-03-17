@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>Comics</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Comics</h1>
+            <a th:href="@{/comics/new}" class="btn btn-success">Add Comic</a>
+        </div>
+
+        <div th:if="${comics.empty}" class="alert alert-info">
+            No comics in your collection yet.
+        </div>
+
+        <table th:if="${!comics.empty}" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Series</th>
+                    <th>Issue</th>
+                    <th>Writer</th>
+                    <th>Status</th>
+                    <th>Format</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="comic : ${comics}">
+                    <td>
+                        <a th:href="@{/comics/{id}(id=${comic.id})}" th:text="${comic.title}">Title</a>
+                    </td>
+                    <td th:text="${comic.series}">Series</td>
+                    <td th:text="${comic.issueNumber}">Issue</td>
+                    <td th:text="${comic.writer}">Writer</td>
+                    <td>
+                        <span th:if="${comic.readStatus}"
+                              th:text="${comic.readStatus}"
+                              th:classappend="${comic.readStatus.name() == 'READ' ? 'badge bg-success' : (comic.readStatus.name() == 'IN_PROGRESS' ? 'badge bg-warning' : 'badge bg-secondary')}">
+                        </span>
+                    </td>
+                    <td th:text="${comic.format}">Format</td>
+                    <td>
+                        <a th:href="@{/comics/{id}/edit(id=${comic.id})}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <form th:action="@{/comics/{id}/delete(id=${comic.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

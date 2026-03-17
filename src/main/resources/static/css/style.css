@@ -1,0 +1,38 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.table th {
+    background-color: #343a40;
+    color: white;
+}
+
+.badge {
+    font-size: 0.85em;
+}
+
+dl.row dt {
+    font-weight: 600;
+}
+
+dl.row dd {
+    margin-bottom: 0.75rem;
+}
+
+footer {
+    border-top: 1px solid #dee2e6;
+    padding-top: 1rem;
+}

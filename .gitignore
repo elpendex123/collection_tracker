@@ -1,0 +1,15 @@
+# Build
+build/
+.gradle/
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

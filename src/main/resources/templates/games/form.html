@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html}">
+<head>
+    <title>Game Form</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h1 th:text="${game.id != null ? 'Edit Game' : 'Add Game'}">Game Form</h1>
+
+        <form th:action="${game.id != null ? '/games/' + game.id : '/games'}" th:object="${game}" method="post">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title *</label>
+                <input type="text" class="form-control" id="title" th:field="*{title}" required>
+                <div th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="console" class="form-label">Console</label>
+                <input type="text" class="form-control" id="console" th:field="*{console}" placeholder="e.g. PS5, Switch, PC">
+            </div>
+
+            <div class="mb-3">
+                <label for="publisher" class="form-label">Publisher</label>
+                <input type="text" class="form-control" id="publisher" th:field="*{publisher}">
+            </div>
+
+            <div class="mb-3">
+                <label for="developer" class="form-label">Developer</label>
+                <input type="text" class="form-control" id="developer" th:field="*{developer}">
+            </div>
+
+            <div class="mb-3">
+                <label for="genre" class="form-label">Genre</label>
+                <input type="text" class="form-control" id="genre" th:field="*{genre}">
+            </div>
+
+            <div class="mb-3">
+                <label for="isbn" class="form-label">ISBN</label>
+                <input type="text" class="form-control" id="isbn" th:field="*{isbn}">
+            </div>
+
+            <div class="mb-3">
+                <label for="completionStatus" class="form-label">Completion Status</label>
+                <select class="form-select" id="completionStatus" th:field="*{completionStatus}">
+                    <option value="">-- Select --</option>
+                    <option th:each="status : ${completionStatuses}" th:value="${status}" th:text="${status}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="format" class="form-label">Format</label>
+                <select class="form-select" id="format" th:field="*{format}">
+                    <option value="">-- Select --</option>
+                    <option th:each="fmt : ${formats}" th:value="${fmt}" th:text="${fmt}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notes</label>
+                <textarea class="form-control" id="notes" th:field="*{notes}" rows="3"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a th:href="@{/games}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
