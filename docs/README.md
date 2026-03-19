@@ -26,8 +26,8 @@ All core functionality is implemented and tested:
 
 | Document | Description |
 |----------|-------------|
-| [Phase 1 Completion](PHASE_1_COMPLETION.md) | Detailed completion report for Phase 1 |
-| [Architecture](ARCHITECTURE.md) | 12 UML diagrams & system architecture |
+| [Phase 1 Completion](phase-1-completion.md) | Detailed completion report for Phase 1 |
+| [Architecture](architecture.md) | System architecture & design patterns |
 | [Getting Started](getting-started.md) | Installation, setup, and running the application |
 | [API Reference](api-reference.md) | Complete REST API documentation |
 | [curl Guide](curl-api.md) | Interacting with the API using curl |
