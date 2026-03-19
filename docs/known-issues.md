@@ -147,6 +147,38 @@ git remote set-url origin git@github.com:username/collection_tracker.git
 
 ---
 
+## Thymeleaf Template Rendering Error
+
+### Issue
+All HTML pages fail to render with the following error:
+
+```
+org.thymeleaf.exceptions.TemplateInputException: Error resolving fragment: "${content}":
+template or fragment could not be resolved (template: "layout" - line 29, col 14)
+```
+
+### Cause
+The `layout.html` template used deprecated Thymeleaf fragment syntax:
+
+```html
+<!-- WRONG (deprecated) -->
+<div th:replace="${content}">
+```
+
+Modern Thymeleaf requires the complete fragment expression syntax.
+
+### Solution
+Updated `src/main/resources/templates/layout.html` to use the correct syntax:
+
+```html
+<!-- CORRECT -->
+<div th:insert="~{::content}">
+```
+
+This allows child templates (index.html, books/list.html, comics/list.html, games/list.html, etc.) to properly inherit the layout and insert their content fragments.
+
+---
+
 ## Empty Collection on First Run
 
 ### Issue

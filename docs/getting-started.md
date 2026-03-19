@@ -123,3 +123,59 @@ The JAR file will be in `build/libs/`.
 ```
 
 Test reports are generated in `build/reports/tests/test/index.html`.
+
+## CI/CD with Jenkins
+
+### Prerequisites
+
+- Jenkins running locally (http://localhost:8080)
+- JDK 17 configured in Jenkins Tools
+
+### Initial Setup
+
+1. Go to Jenkins Dashboard: http://localhost:8080/
+2. Click **New Item**
+3. Enter job name: `collection-tracker`
+4. Select **Pipeline** and click OK
+
+### Job Configuration
+
+In the Pipeline section:
+
+- **Definition**: Pipeline script from SCM
+- **SCM**: Git
+- **Repository URL**: `/home/enrique/PROJECTS/collection_tracker`
+- **Branches**: `*/main`
+- **Script Path**: `Jenkinsfile` (default)
+
+Click **Save**
+
+### Running Builds
+
+```bash
+# Manually trigger a build
+# Go to http://localhost:8080/job/collection-tracker/
+# Click "Build Now"
+```
+
+### Build Pipeline Stages
+
+The Jenkinsfile executes:
+
+1. **Checkout** - Clones the repository
+2. **Build** - Runs `./gradlew clean build -x test`
+3. **Test** - Runs `./gradlew test`
+4. **Package** - Runs `./gradlew bootJar` (creates JAR artifact)
+
+### Viewing Results
+
+- Click build number in Build History
+- View console output for logs
+- Scroll down to see test reports and artifacts
+
+### Troubleshooting Jenkins Builds
+
+- **Java version mismatch**: Verify JDK 17 in Manage Jenkins → Tools Configuration
+- **Port already in use**: Kill existing process or change port in application.properties
+- **MySQL connection errors**: Ensure MySQL is running and credentials are correct
+- **Permission denied on gradlew**: Run `chmod +x gradlew` in repository
