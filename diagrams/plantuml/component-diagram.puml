@@ -1,0 +1,183 @@
+@startuml Collection_Tracker_Component_Diagram
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam componentBackgroundColor #F0F0F0
+skinparam componentBorderColor #333333
+
+title Collection Tracker - Component Architecture
+
+package "Client Layer" {
+  [Web Browser] as WebBrowser
+  [REST API Client] as APIClient
+  [CLI Scripts] as CLI
+}
+
+package "Spring Boot Application\n(http://localhost:8081)" {
+
+  package "Request Handling" {
+    [DispatcherServlet] as DispatcherServlet
+    [Request Interceptors] as Interceptors
+  }
+
+  package "Web Layer" {
+    [BookController] as BookCtrl
+    [ComicController] as ComicCtrl
+    [VideoGameController] as GameCtrl
+    [BookViewController] as BookViewCtrl
+    [ComicViewController] as ComicViewCtrl
+    [VideoGameViewController] as GameViewCtrl
+    [HomeController] as HomeCtrl
+  }
+
+  package "Service Layer" {
+    [BookService] as BookSvc
+    [ComicService] as ComicSvc
+    [VideoGameService] as GameSvc
+  }
+
+  package "Data Access Layer" {
+    [BookRepository] as BookRepo
+    [ComicRepository] as ComicRepo
+    [VideoGameRepository] as GameRepo
+    [BookSpecifications] as BookSpec
+    [ComicSpecifications] as ComicSpec
+    [VideoGameSpecifications] as GameSpec
+  }
+
+  package "ORM Layer" {
+    [Hibernate] as Hibernate
+    [Spring Data JPA] as JPA
+  }
+
+  package "View Rendering" {
+    [Thymeleaf Engine] as Thymeleaf
+    [Template Resolver] as TemplateResolver
+  }
+
+  package "Exception Handling" {
+    [GlobalExceptionHandler] as ExHandler
+    [ResourceNotFoundException] as NotFound
+  }
+
+  package "Utilities" {
+    [Entity Base Classes] as BaseClasses
+    [Enumerations] as Enums
+    [Validation] as Validation
+  }
+}
+
+package "External Systems" {
+  database "MySQL Database\n(localhost:3306)" {
+    [book table] as BookTable
+    [comic table] as ComicTable
+    [video_game table] as GameTable
+  }
+
+  [Gradle Build System] as Gradle
+  [Jenkins CI/CD] as Jenkins
+}
+
+package "Frontend Assets" {
+  [Bootstrap 5] as Bootstrap
+  [Custom CSS] as CustomCSS
+  [HTML Templates] as Templates
+}
+
+' Client to Application
+WebBrowser --> DispatcherServlet: HTTP Requests
+APIClient --> DispatcherServlet: JSON Requests
+CLI --> APIClient: curl Commands
+
+' Request Flow
+DispatcherServlet --> Interceptors: Route requests
+Interceptors --> BookCtrl
+Interceptors --> ComicCtrl
+Interceptors --> GameCtrl
+Interceptors --> BookViewCtrl
+Interceptors --> ComicViewCtrl
+Interceptors --> GameViewCtrl
+Interceptors --> HomeCtrl
+
+' Controller to Service
+BookCtrl --> BookSvc
+ComicCtrl --> ComicSvc
+GameCtrl --> GameSvc
+BookViewCtrl --> BookSvc
+ComicViewCtrl --> ComicSvc
+GameViewCtrl --> GameSvc
+HomeCtrl --> BookSvc
+HomeCtrl --> ComicSvc
+HomeCtrl --> GameSvc
+
+' Service to Repository
+BookSvc --> BookRepo
+ComicSvc --> ComicRepo
+GameSvc --> GameRepo
+
+' Repository to Specifications
+BookRepo --> BookSpec
+ComicRepo --> ComicSpec
+GameRepo --> GameSpec
+
+' Repository to ORM
+BookRepo --> JPA
+ComicRepo --> JPA
+GameRepo --> JPA
+BookSpec --> JPA
+ComicSpec --> JPA
+GameSpec --> JPA
+JPA --> Hibernate
+
+' Hibernate to Database
+Hibernate --> BookTable
+Hibernate --> ComicTable
+Hibernate --> GameTable
+
+' View Rendering
+BookViewCtrl --> Thymeleaf
+ComicViewCtrl --> Thymeleaf
+GameViewCtrl --> Thymeleaf
+HomeCtrl --> Thymeleaf
+Thymeleaf --> TemplateResolver
+TemplateResolver --> Templates
+
+' Exception Handling
+BookCtrl --> ExHandler
+ComicCtrl --> ExHandler
+GameCtrl --> ExHandler
+BookViewCtrl --> ExHandler
+ComicViewCtrl --> ExHandler
+GameViewCtrl --> ExHandler
+ExHandler --> NotFound
+
+' Validation
+BookCtrl --> Validation
+ComicCtrl --> Validation
+GameCtrl --> Validation
+Validation --> BaseClasses
+
+' Enumerations
+BookSvc --> Enums
+ComicSvc --> Enums
+GameSvc --> Enums
+
+' Assets
+Thymeleaf --> Bootstrap
+Thymeleaf --> CustomCSS
+Templates --> Bootstrap
+
+' Build & Deployment
+Gradle --> Jenkins: Builds from repo
+Jenkins --> Jenkins: Runs tests, packages JAR
+
+' Response Flow
+ExHandler --> WebBrowser: JSON Error Response
+BookCtrl --> WebBrowser: HTML/JSON Response
+ComicCtrl --> WebBrowser: HTML/JSON Response
+GameCtrl --> WebBrowser: HTML/JSON Response
+BookViewCtrl --> WebBrowser: HTML Response
+ComicViewCtrl --> WebBrowser: HTML Response
+GameViewCtrl --> WebBrowser: HTML Response
+HomeCtrl --> WebBrowser: HTML Response
+
+@enduml

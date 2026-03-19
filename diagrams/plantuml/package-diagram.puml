@@ -1,0 +1,150 @@
+@startuml Collection_Tracker_Package_Diagram
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam packageBackgroundColor #F0F0F0
+skinparam packageBorderColor #333333
+
+title Collection Tracker - Package & Layer Architecture
+
+package "Presentation Layer" {
+  package "Thymeleaf Views" {
+    [index.html]
+    [books/list.html]
+    [books/form.html]
+    [books/detail.html]
+    [comics/list.html]
+    [comics/form.html]
+    [comics/detail.html]
+    [games/list.html]
+    [games/form.html]
+    [games/detail.html]
+  }
+
+  package "View Controllers" {
+    [BookViewController]
+    [ComicViewController]
+    [VideoGameViewController]
+    [HomeController]
+  }
+
+  package "REST Controllers" {
+    [BookController]
+    [ComicController]
+    [VideoGameController]
+  }
+
+  [layout.html] -up- [View Controllers]
+}
+
+package "Service Layer" {
+  [BookService]
+  [ComicService]
+  [VideoGameService]
+}
+
+package "Repository Layer" {
+  [BookRepository]
+  [ComicRepository]
+  [VideoGameRepository]
+
+  package "Specifications" {
+    [BookSpecifications]
+    [ComicSpecifications]
+    [VideoGameSpecifications]
+  }
+}
+
+package "Entity/Model Layer" {
+  [BaseEntity] <<abstract>>
+  [Book]
+  [Comic]
+  [VideoGame]
+
+  package "Enumerations" {
+    [ReadStatus]
+    [CompletionStatus]
+    [Format]
+  }
+}
+
+package "Common/Shared" {
+  [GlobalExceptionHandler]
+  [ResourceNotFoundException]
+  [Enumerations]
+}
+
+package "Spring Framework" {
+  [Spring Data JPA]
+  [Spring MVC]
+  [Hibernate]
+}
+
+package "External Systems" {
+  database "MySQL Database\n(collection_tracker)" as DB {
+    [book table]
+    [comic table]
+    [video_game table]
+  }
+
+  [Bootstrap 5 CSS Framework]
+  [Thymeleaf Template Engine]
+}
+
+' Dependencies
+[BookViewController] --> [BookService]
+[ComicViewController] --> [ComicService]
+[VideoGameViewController] --> [VideoGameService]
+[HomeController] --> [BookService]
+[HomeController] --> [ComicService]
+[HomeController] --> [VideoGameService]
+
+[BookController] --> [BookService]
+[ComicController] --> [ComicService]
+[VideoGameController] --> [VideoGameService]
+
+[BookService] --> [BookRepository]
+[ComicService] --> [ComicRepository]
+[VideoGameService] --> [VideoGameRepository]
+
+[BookService] --> [BookSpecifications]
+[ComicService] --> [ComicSpecifications]
+[VideoGameService] --> [VideoGameSpecifications]
+
+[BookRepository] --> [Book]
+[ComicRepository] --> [Comic]
+[VideoGameRepository] --> [VideoGame]
+
+[Book] --> [BaseEntity]
+[Comic] --> [BaseEntity]
+[VideoGame] --> [BaseEntity]
+
+[Book] --> [ReadStatus]
+[Book] --> [Format]
+[Comic] --> [ReadStatus]
+[Comic] --> [Format]
+[VideoGame] --> [CompletionStatus]
+[VideoGame] --> [Format]
+
+[BookController] --> [GlobalExceptionHandler]
+[ComicController] --> [GlobalExceptionHandler]
+[VideoGameController] --> [GlobalExceptionHandler]
+
+[BookRepository] --> [Spring Data JPA]
+[ComicRepository] --> [Spring Data JPA]
+[VideoGameRepository] --> [Spring Data JPA]
+
+[Spring Data JPA] --> [Hibernate]
+[Hibernate] --> [DB]
+
+[BookViewController] --> [Spring MVC]
+[ComicViewController] --> [Spring MVC]
+[VideoGameViewController] --> [Spring MVC]
+
+[BookController] --> [Spring MVC]
+[ComicController] --> [Spring MVC]
+[VideoGameController] --> [Spring MVC]
+
+[View Controllers] --> [Thymeleaf Template Engine]
+[Thymeleaf Views] --> [Bootstrap 5 CSS Framework]
+
+@enduml

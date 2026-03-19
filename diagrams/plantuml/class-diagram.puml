@@ -1,0 +1,340 @@
+@startuml Collection_Tracker_Class_Diagram
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam classBackgroundColor #F0F0F0
+skinparam classBorderColor #333333
+skinparam arrowColor #333333
+
+package "com.enrique.collectiontracker.book" {
+  class Book extends BaseEntity {
+    - title: String
+    - author: String
+    - isbn: String
+    - publisher: String
+    - publishedYear: Integer
+    - genre: String
+    - readStatus: ReadStatus
+    - format: Format
+    - notes: String
+    --
+    + getTitle(): String
+    + setTitle(String): void
+    + getAuthor(): String
+    + setAuthor(String): void
+    + getIsbn(): String
+    + setIsbn(String): void
+    + getGenre(): String
+    + setGenre(String): void
+    + getReadStatus(): ReadStatus
+    + setReadStatus(ReadStatus): void
+    + getFormat(): Format
+    + setFormat(Format): void
+  }
+
+  interface BookRepository extends JpaRepository {
+    + findByTitleContainingIgnoreCase(String): List<Book>
+    + findByGenreIgnoreCase(String): List<Book>
+    + findByReadStatus(ReadStatus): List<Book>
+    + findByFormat(Format): List<Book>
+    + existsByIsbnAndTitleIgnoreCase(String, String): boolean
+  }
+
+  class BookService {
+    - bookRepository: BookRepository
+    --
+    + findAll(): List<Book>
+    + findById(Long): Optional<Book>
+    + save(Book): Book
+    + deleteById(Long): void
+    + searchByTitle(String): List<Book>
+    + filter(String, ReadStatus, Format): List<Book>
+    + existsById(Long): boolean
+  }
+
+  class BookController {
+    - bookService: BookService
+    --
+    + getAllBooks(): List<Book>
+    + getBookById(Long): Book
+    + createBook(Book): ResponseEntity<Book>
+    + updateBook(Long, Book): Book
+    + deleteBook(Long): ResponseEntity<Void>
+    + searchBooks(String): List<Book>
+    + filterBooks(String, ReadStatus, Format): List<Book>
+  }
+
+  class BookViewController {
+    - bookService: BookService
+    --
+    + list(Model): String
+    + newForm(Model): String
+    + create(Book, BindingResult, Model): String
+    + detail(Long, Model): String
+    + editForm(Long, Model): String
+    + update(Long, Book, BindingResult, Model): String
+    + delete(Long): String
+  }
+
+  class BookSpecifications {
+    {static} + hasGenre(String): Specification<Book>
+    {static} + hasStatus(ReadStatus): Specification<Book>
+    {static} + hasFormat(Format): Specification<Book>
+  }
+
+  BookRepository --> BookService
+  BookService --> BookSpecifications
+  BookController --> BookService
+  BookViewController --> BookService
+  Book --> ReadStatus
+  Book --> Format
+}
+
+package "com.enrique.collectiontracker.comic" {
+  class Comic extends BaseEntity {
+    - title: String
+    - isbn: String
+    - series: String
+    - issueNumber: String
+    - writer: String
+    - artist: String
+    - readStatus: ReadStatus
+    - format: Format
+    - notes: String
+    --
+    + getTitle(): String
+    + getSeries(): String
+    + getIssueNumber(): String
+    + getWriter(): String
+    + getArtist(): String
+    + getReadStatus(): ReadStatus
+    + getFormat(): Format
+  }
+
+  interface ComicRepository extends JpaRepository {
+    + findByTitleContainingIgnoreCase(String): List<Comic>
+    + findByReadStatus(ReadStatus): List<Comic>
+    + findByFormat(Format): List<Comic>
+    + existsByIsbnAndTitleIgnoreCase(String, String): boolean
+  }
+
+  class ComicService {
+    - comicRepository: ComicRepository
+    --
+    + findAll(): List<Comic>
+    + findById(Long): Optional<Comic>
+    + save(Comic): Comic
+    + deleteById(Long): void
+    + searchByTitle(String): List<Comic>
+    + filter(ReadStatus, Format): List<Comic>
+    + existsById(Long): boolean
+  }
+
+  class ComicController {
+    - comicService: ComicService
+    --
+    + getAllComics(): List<Comic>
+    + getComicById(Long): Comic
+    + createComic(Comic): ResponseEntity<Comic>
+    + updateComic(Long, Comic): Comic
+    + deleteComic(Long): ResponseEntity<Void>
+    + searchComics(String): List<Comic>
+    + filterComics(ReadStatus, Format): List<Comic>
+  }
+
+  class ComicViewController {
+    - comicService: ComicService
+    --
+    + list(Model): String
+    + newForm(Model): String
+    + create(Comic, BindingResult, Model): String
+    + detail(Long, Model): String
+    + editForm(Long, Model): String
+    + update(Long, Comic, BindingResult, Model): String
+    + delete(Long): String
+  }
+
+  class ComicSpecifications {
+    {static} + hasStatus(ReadStatus): Specification<Comic>
+    {static} + hasFormat(Format): Specification<Comic>
+  }
+
+  ComicRepository --> ComicService
+  ComicService --> ComicSpecifications
+  ComicController --> ComicService
+  ComicViewController --> ComicService
+  Comic --> ReadStatus
+  Comic --> Format
+}
+
+package "com.enrique.collectiontracker.videogame" {
+  class VideoGame extends BaseEntity {
+    - title: String
+    - isbn: String
+    - console: String
+    - publisher: String
+    - developer: String
+    - genre: String
+    - completionStatus: CompletionStatus
+    - format: Format
+    - notes: String
+    --
+    + getTitle(): String
+    + getConsole(): String
+    + getPublisher(): String
+    + getDeveloper(): String
+    + getGenre(): String
+    + getCompletionStatus(): CompletionStatus
+    + getFormat(): Format
+  }
+
+  interface VideoGameRepository extends JpaRepository {
+    + findByTitleContainingIgnoreCase(String): List<VideoGame>
+    + findByGenreIgnoreCase(String): List<VideoGame>
+    + findByConsoleIgnoreCase(String): List<VideoGame>
+    + findByCompletionStatus(CompletionStatus): List<VideoGame>
+    + findByFormat(Format): List<VideoGame>
+    + existsByIsbnAndTitleIgnoreCase(String, String): boolean
+  }
+
+  class VideoGameService {
+    - videoGameRepository: VideoGameRepository
+    --
+    + findAll(): List<VideoGame>
+    + findById(Long): Optional<VideoGame>
+    + save(VideoGame): VideoGame
+    + deleteById(Long): void
+    + searchByTitle(String): List<VideoGame>
+    + filter(String, CompletionStatus, String, String, Format): List<VideoGame>
+    + existsById(Long): boolean
+  }
+
+  class VideoGameController {
+    - videoGameService: VideoGameService
+    --
+    + getAllGames(): List<VideoGame>
+    + getGameById(Long): VideoGame
+    + createGame(VideoGame): ResponseEntity<VideoGame>
+    + updateGame(Long, VideoGame): VideoGame
+    + deleteGame(Long): ResponseEntity<Void>
+    + searchGames(String): List<VideoGame>
+    + filterGames(String, CompletionStatus, String, String, Format): List<VideoGame>
+  }
+
+  class VideoGameViewController {
+    - videoGameService: VideoGameService
+    --
+    + list(Model): String
+    + newForm(Model): String
+    + create(VideoGame, BindingResult, Model): String
+    + detail(Long, Model): String
+    + editForm(Long, Model): String
+    + update(Long, VideoGame, BindingResult, Model): String
+    + delete(Long): String
+  }
+
+  class VideoGameSpecifications {
+    {static} + hasGenre(String): Specification<VideoGame>
+    {static} + hasConsole(String): Specification<VideoGame>
+    {static} + hasStatus(CompletionStatus): Specification<VideoGame>
+    {static} + hasPublisher(String): Specification<VideoGame>
+    {static} + hasFormat(Format): Specification<VideoGame>
+  }
+
+  VideoGameRepository --> VideoGameService
+  VideoGameService --> VideoGameSpecifications
+  VideoGameController --> VideoGameService
+  VideoGameViewController --> VideoGameService
+  VideoGame --> CompletionStatus
+  VideoGame --> Format
+}
+
+package "com.enrique.collectiontracker.common" {
+  abstract class BaseEntity {
+    # id: Long
+    # createdAt: LocalDateTime
+    # updatedAt: LocalDateTime
+    --
+    # onCreate(): void
+    # onUpdate(): void
+    + getId(): Long
+    + setId(Long): void
+    + getCreatedAt(): LocalDateTime
+    + getUpdatedAt(): LocalDateTime
+  }
+
+  enum ReadStatus {
+    UNREAD
+    IN_PROGRESS
+    READ
+  }
+
+  enum CompletionStatus {
+    BACKLOG
+    PLAYING
+    BEATEN
+    DROPPED
+  }
+
+  enum Format {
+    PHYSICAL
+    DIGITAL
+  }
+
+  class ResourceNotFoundException extends Exception {
+    + ResourceNotFoundException(String)
+  }
+
+  class GlobalExceptionHandler {
+    + handleResourceNotFound(ResourceNotFoundException): ResponseEntity<ErrorResponse>
+    + handleValidationException(MethodArgumentNotValidException): ResponseEntity<ErrorResponse>
+  }
+
+  class HomeController {
+    - bookService: BookService
+    - comicService: ComicService
+    - videoGameService: VideoGameService
+    --
+    + home(Model): String
+  }
+}
+
+package "org.springframework.data.jpa.repository" {
+  interface JpaRepository<T, ID> {
+    + save(T): T
+    + saveAll(Iterable<T>): List<T>
+    + findById(ID): Optional<T>
+    + findAll(): List<T>
+    + delete(T): void
+    + deleteById(ID): void
+  }
+
+  interface JpaSpecificationExecutor<T> {
+    + findAll(Specification<T>): List<T>
+  }
+}
+
+note right of BaseEntity
+  Abstract base class for all entities
+  Automatically manages timestamps
+  Uses @PrePersist and @PreUpdate
+end note
+
+note right of BookService
+  Service layer handles business logic
+  Delegates to repository for data access
+  Performs validation before save
+end note
+
+note right of BookController
+  REST API endpoints
+  Maps HTTP requests to service methods
+  Returns JSON responses
+end note
+
+note right of BookViewController
+  Thymeleaf template controller
+  Maps requests to HTML views
+  Handles form submissions
+end note
+
+@enduml

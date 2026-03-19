@@ -1,0 +1,158 @@
+@startuml Collection_Tracker_Deployment
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam artifactBackgroundColor #F0F0F0
+skinparam artifactBorderColor #333333
+
+title Collection Tracker - Deployment Architecture Diagrams
+
+== Phase 1: Local Development Environment ==
+
+node "Developer Machine\n(Linux)" as DevMachine {
+  component "IDE/Editor" as IDE
+  artifact "Source Code\n(/home/enrique/PROJECTS/...)" as SourceCode
+  artifact "Git Repository\n(.git)" as LocalGit
+
+  node "JVM Runtime\n(Java 17)" as JVM {
+    artifact "Spring Boot App\nPort 8081" as SpringApp
+  }
+
+  node "MySQL Server\n(localhost:3306)" as MySQLLocal {
+    database "collection_tracker" as DBLocal
+  }
+
+  node "Jenkins Server\n(localhost:8080)" as JenkinsLocal {
+    artifact "Pipeline Job:\ncollection-tracker" as JenkinsPipeline
+  }
+
+  artifact "Gradle\n(./gradlew)" as Gradle
+
+  IDE --> SourceCode: Edit code
+  SourceCode --> LocalGit: git push
+  LocalGit --> Gradle: Build
+  Gradle --> JVM: Execute
+  SpringApp --> DBLocal: Query/Update
+  JenkinsPipeline --> Gradle: Build process
+  JenkinsPipeline --> DBLocal: Test data
+}
+
+cloud "GitHub Remote\n(elpendex123/collection_tracker)" as GitHub {
+  artifact "Main branch" as MainBranch
+}
+
+LocalGit -.-> MainBranch: Push/Pull
+
+card "Access Points" {
+  [Web UI: http://localhost:8081] as WebUI
+  [API: http://localhost:8081/api] as API
+  [Jenkins: http://localhost:8080] as JenkinsWeb
+}
+
+SpringApp --> WebUI: Serve HTML
+SpringApp --> API: REST endpoints
+JenkinsLocal --> JenkinsWeb: Dashboard
+
+== Phase 2: AWS EKS Deployment ==
+
+cloud "AWS Cloud (Production)" as AWS {
+
+  node "AWS Region (us-east-1)" as Region {
+
+    component "Amazon ECR\n(Elastic Container Registry)" as ECR {
+      artifact "Docker Image\ncollection-tracker:latest" as DockerImage
+    }
+
+    node "Amazon EKS\n(Kubernetes Cluster)" as EKS {
+      node "Master Node" as MasterNode {
+        [API Server]
+        [Scheduler]
+        [Controller Manager]
+      }
+
+      node "Worker Node 1" as Worker1 {
+        artifact "Pod: collection-tracker-1\n(Docker Container)" as Pod1
+      }
+
+      node "Worker Node 2" as Worker2 {
+        artifact "Pod: collection-tracker-2\n(Docker Container)" as Pod2
+      }
+
+      node "Worker Node 3" as Worker3 {
+        artifact "Pod: collection-tracker-3\n(Docker Container)" as Pod3
+      }
+
+      component "Kubernetes Service\n(Load Balancer)" as K8sService {
+        [Service: collection-tracker-svc]
+      }
+    }
+
+    node "Amazon RDS\n(Managed MySQL)" as RDS {
+      database "collection_tracker\n(Multi-AZ)" as DBRDS
+    }
+
+    node "AWS CloudWatch\n(Monitoring & Logging)" as CloudWatch {
+      [Logs]
+      [Metrics]
+      [Alarms]
+    }
+
+    node "AWS LoadBalancer" as ALB {
+      [Application Load Balancer]
+    }
+
+    artifact "AWS Certificate Manager\n(SSL/TLS)" as ACM
+  }
+
+  node "CI/CD Pipeline" as CICD {
+    artifact "GitHub\n(Source)" as GithubCI
+    artifact "Jenkins\n(Orchestration)" as JenkinsCI
+    artifact "Gradle\n(Build)" as GradleCI
+    artifact "Docker\n(Containerize)" as DockerCI
+  }
+}
+
+' Phase 2 connections
+GithubCI --> JenkinsCI: Webhook trigger
+JenkinsCI --> GradleCI: Build
+GradleCI --> DockerCI: Create image
+DockerCI --> ECR: Push image
+ECR --> Pod1: Deploy
+ECR --> Pod2: Deploy
+ECR --> Pod3: Deploy
+
+Pod1 --> DBRDS: Connect
+Pod2 --> DBRDS: Connect
+Pod3 --> DBRDS: Connect
+
+K8sService --> Pod1: Route traffic
+K8sService --> Pod2: Route traffic
+K8sService --> Pod3: Route traffic
+
+ALB --> K8sService: Forward requests
+
+Pod1 --> CloudWatch: Send logs
+Pod2 --> CloudWatch: Send logs
+Pod3 --> CloudWatch: Send logs
+DBRDS --> CloudWatch: Metrics
+
+ACM --> ALB: HTTPS certificates
+
+card "Production Access Points" {
+  [Public URL:\nhttps://app.example.com] as ProdUI
+  [API:\nhttps://api.example.com/api] as ProdAPI
+}
+
+ALB --> ProdUI: Serve HTML
+ALB --> ProdAPI: REST endpoints
+
+== Migration Path ==
+
+card "Phase 1 → Phase 2" {
+  [Local MySQL] --> [AWS RDS]: Data migration
+  [Local Docker]: Manual testing
+  [Docker Image]: Push to ECR
+  [Docker Compose]: Local EKS simulation
+  [Kubernetes YAML]: Infrastructure as Code
+}
+
+@enduml

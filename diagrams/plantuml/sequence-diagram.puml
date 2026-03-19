@@ -1,0 +1,285 @@
+@startuml Collection_Tracker_Sequence_Diagrams
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam sequenceActorBackgroundColor #F0F0F0
+
+title Collection Tracker - Request Sequence Flows
+
+== Create Book (POST /api/books) ==
+
+participant "Client\n(curl/API)" as Client
+participant "BookController" as Controller
+participant "BookService" as Service
+participant "BookRepository" as Repo
+participant "Hibernate\nORM" as ORM
+participant "MySQL\nDatabase" as DB
+
+Client->>Controller: POST /api/books\n{title, author, ...}
+activate Controller
+
+Controller->>Controller: Validate @RequestBody
+Controller->>Service: save(book)
+activate Service
+
+Service->>Service: Validate business rules
+Service->>Repo: save(book)
+activate Repo
+
+Repo->>ORM: persist(book)
+activate ORM
+
+ORM->>ORM: Generate INSERT SQL
+ORM->>DB: INSERT INTO book (...)\nVALUES (...)
+activate DB
+
+DB->>DB: Create record\nSet auto-increment ID\nSet created_at
+DB-->>ORM: Return generated ID
+deactivate DB
+
+ORM-->>Repo: Book object with ID
+deactivate ORM
+
+Repo-->>Service: Saved Book
+deactivate Repo
+
+Service-->>Controller: Book object
+deactivate Service
+
+Controller->>Controller: Serialize to JSON
+Controller-->>Client: 201 CREATED\n{id, title, author, ...}
+deactivate Controller
+
+== Get Single Book (GET /api/books/{id}) ==
+
+participant "Client" as C2
+participant "BookController" as Controller2
+participant "BookService" as Service2
+participant "BookRepository" as Repo2
+participant "MySQL" as DB2
+
+C2->>Controller2: GET /api/books/1
+activate Controller2
+
+Controller2->>Service2: findById(1)
+activate Service2
+
+Service2->>Repo2: findById(1)
+activate Repo2
+
+Repo2->>DB2: SELECT * FROM book WHERE id = 1
+activate DB2
+
+DB2-->>Repo2: ResultSet
+deactivate DB2
+
+Repo2->>Repo2: Convert to Optional<Book>
+Repo2-->>Service2: Optional<Book>
+deactivate Repo2
+
+Service2->>Service2: Unwrap Optional\nor throw exception
+Service2-->>Controller2: Book object
+deactivate Service2
+
+Controller2->>Controller2: Serialize to JSON
+Controller2-->>C2: 200 OK\n{id, title, author, ...}
+deactivate Controller2
+
+== Search Books (GET /api/books/search?title=Dune) ==
+
+participant "Client" as C3
+participant "BookController" as Controller3
+participant "BookService" as Service3
+participant "BookRepository" as Repo3
+participant "MySQL" as DB3
+
+C3->>Controller3: GET /api/books/search?title=Dune
+activate Controller3
+
+Controller3->>Service3: searchByTitle("Dune")
+activate Service3
+
+Service3->>Repo3: findByTitleContainingIgnoreCase("Dune")
+activate Repo3
+
+note over Repo3
+  Spring Data JPA generates:
+  SELECT * FROM book
+  WHERE LOWER(title) LIKE LOWER('%Dune%')
+end note
+
+Repo3->>DB3: Query with LIKE
+activate DB3
+
+DB3-->>Repo3: Multiple rows
+deactivate DB3
+
+Repo3->>Repo3: Convert ResultSet to List<Book>
+Repo3-->>Service3: List<Book>
+deactivate Repo3
+
+Service3-->>Controller3: List<Book>
+deactivate Service3
+
+Controller3->>Controller3: Serialize to JSON array
+Controller3-->>C3: 200 OK\n[{...}, {...}, ...]
+deactivate Controller3
+
+== Filter Books (GET /api/books/filter?genre=Sci-Fi&status=UNREAD) ==
+
+participant "Client" as C4
+participant "BookController" as Controller4
+participant "BookService" as Service4
+participant "BookSpecifications" as Spec
+participant "BookRepository" as Repo4
+participant "MySQL" as DB4
+
+C4->>Controller4: GET /api/books/filter?genre=Sci-Fi&status=UNREAD
+activate Controller4
+
+Controller4->>Service4: filter("Sci-Fi", UNREAD, null)
+activate Service4
+
+Service4->>Spec: hasGenre("Sci-Fi")
+activate Spec
+Spec-->>Service4: Specification<Book>
+deactivate Spec
+
+Service4->>Spec: hasStatus(UNREAD)
+activate Spec
+Spec-->>Service4: Specification<Book>
+deactivate Spec
+
+Service4->>Spec: hasFormat(null)
+activate Spec
+Spec-->>Service4: Specification<Book>
+deactivate Spec
+
+note over Service4
+  Combine Specifications:
+  spec.where(...).and(...).and(...)
+end note
+
+Service4->>Repo4: findAll(combinedSpec)
+activate Repo4
+
+note over Repo4
+  JpaSpecificationExecutor
+  converts to WHERE clause:
+  WHERE genre = 'Sci-Fi'
+  AND read_status = 'UNREAD'
+  AND format IS NULL
+end note
+
+Repo4->>DB4: SELECT * FROM book WHERE ...
+activate DB4
+
+DB4-->>Repo4: Matching rows
+deactivate DB4
+
+Repo4-->>Service4: List<Book>
+deactivate Repo4
+
+Service4-->>Controller4: List<Book>
+deactivate Service4
+
+Controller4-->>C4: 200 OK\n[filtered results]
+deactivate Controller4
+
+== Update Book (PUT /api/books/{id}) ==
+
+participant "Client" as C5
+participant "BookController" as Controller5
+participant "BookService" as Service5
+participant "BookRepository" as Repo5
+participant "MySQL" as DB5
+
+C5->>Controller5: PUT /api/books/1\n{readStatus: "READ"}
+activate Controller5
+
+Controller5->>Controller5: Check if exists
+
+Controller5->>Service5: save(book)
+activate Service5
+
+note over Service5
+  Book ID is already set
+  Hibernate knows this is an UPDATE
+end note
+
+Service5->>Repo5: save(book) [UPDATE mode]
+activate Repo5
+
+Repo5->>DB5: UPDATE book SET ... WHERE id = 1
+activate DB5
+
+DB5->>DB5: Update row\nSet updated_at timestamp
+DB5-->>Repo5: Row updated
+deactivate DB5
+
+Repo5-->>Service5: Updated Book
+deactivate Repo5
+
+Service5-->>Controller5: Book object
+deactivate Service5
+
+Controller5-->>C5: 200 OK\n{id, readStatus: "READ", ...}
+deactivate Controller5
+
+== Delete Book (DELETE /api/books/{id}) ==
+
+participant "Client" as C6
+participant "BookController" as Controller6
+participant "BookService" as Service6
+participant "BookRepository" as Repo6
+participant "MySQL" as DB6
+
+C6->>Controller6: DELETE /api/books/1
+activate Controller6
+
+Controller6->>Controller6: Check if exists
+
+Controller6->>Service6: deleteById(1)
+activate Service6
+
+Service6->>Repo6: deleteById(1)
+activate Repo6
+
+Repo6->>DB6: DELETE FROM book WHERE id = 1
+activate DB6
+
+DB6->>DB6: Delete row
+DB6-->>Repo6: Row deleted
+deactivate DB6
+
+Repo6-->>Service6: (void)
+deactivate Repo6
+
+Service6-->>Controller6: (void)
+deactivate Service6
+
+Controller6-->>C6: 204 NO CONTENT
+deactivate Controller6
+
+== Error Handling: Resource Not Found ==
+
+participant "Client" as C7
+participant "BookController" as Controller7
+participant "BookService" as Service7
+participant "GlobalExceptionHandler" as ExHandler
+
+C7->>Controller7: GET /api/books/999
+activate Controller7
+
+Controller7->>Service7: findById(999)
+activate Service7
+
+Service7-->>Controller7: throw ResourceNotFoundException
+activate ExHandler
+
+ExHandler->>ExHandler: Format error response
+ExHandler-->>C7: 404 NOT FOUND\n{error: "Book not found..."}
+
+deactivate ExHandler
+deactivate Controller7
+
+@enduml

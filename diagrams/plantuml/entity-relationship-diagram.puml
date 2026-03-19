@@ -1,0 +1,197 @@
+@startuml Collection_Tracker_ERD
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam entityBackgroundColor #F0F0F0
+skinparam entityBorderColor #333333
+
+title Collection Tracker - Database Entity Relationship Diagram
+
+entity book {
+  * id : BIGINT (PRIMARY KEY, AUTO_INCREMENT)
+  --
+  * title : VARCHAR(255) NOT NULL
+  author : VARCHAR(255)
+  isbn : VARCHAR(20)
+  publisher : VARCHAR(255)
+  published_year : INT
+  genre : VARCHAR(100)
+  read_status : ENUM('UNREAD','IN_PROGRESS','READ')
+  format : ENUM('PHYSICAL','DIGITAL')
+  notes : TEXT
+  created_at : DATETIME (AUTO_SET @PrePersist)
+  updated_at : DATETIME (AUTO_SET @PreUpdate)
+}
+
+entity comic {
+  * id : BIGINT (PRIMARY KEY, AUTO_INCREMENT)
+  --
+  * title : VARCHAR(255) NOT NULL
+  isbn : VARCHAR(20)
+  series : VARCHAR(255)
+  issue_number : VARCHAR(20)
+  writer : VARCHAR(255)
+  artist : VARCHAR(255)
+  read_status : ENUM('UNREAD','IN_PROGRESS','READ')
+  format : ENUM('PHYSICAL','DIGITAL')
+  notes : TEXT
+  created_at : DATETIME (AUTO_SET @PrePersist)
+  updated_at : DATETIME (AUTO_SET @PreUpdate)
+}
+
+entity video_game {
+  * id : BIGINT (PRIMARY KEY, AUTO_INCREMENT)
+  --
+  * title : VARCHAR(255) NOT NULL
+  isbn : VARCHAR(20)
+  console : VARCHAR(100)
+  publisher : VARCHAR(255)
+  developer : VARCHAR(255)
+  genre : VARCHAR(100)
+  completion_status : ENUM('BACKLOG','PLAYING','BEATEN','DROPPED')
+  format : ENUM('PHYSICAL','DIGITAL')
+  notes : TEXT
+  created_at : DATETIME (AUTO_SET @PrePersist)
+  updated_at : DATETIME (AUTO_SET @PreUpdate)
+}
+
+note right of book
+  **Table: book**
+  Stores information about books in the collection
+
+  Constraints:
+  - PRIMARY KEY on id
+  - UNIQUE INDEX on isbn + title combination
+  - NOT NULL on title
+  - ENUM values stored as VARCHAR
+
+  Indexes:
+  - id (primary)
+  - title (for search)
+  - genre (for filtering)
+  - read_status (for filtering)
+  - format (for filtering)
+  - isbn (for duplicate detection)
+
+  Current Records: 99
+end note
+
+note right of comic
+  **Table: comic**
+  Stores information about comics in the collection
+
+  Constraints:
+  - PRIMARY KEY on id
+  - UNIQUE INDEX on isbn + title combination
+  - NOT NULL on title
+  - ENUM values stored as VARCHAR
+
+  Indexes:
+  - id (primary)
+  - title (for search)
+  - read_status (for filtering)
+  - format (for filtering)
+  - isbn (for duplicate detection)
+
+  Current Records: 100
+end note
+
+note right of video_game
+  **Table: video_game**
+  Stores information about video games in the collection
+
+  Constraints:
+  - PRIMARY KEY on id
+  - UNIQUE INDEX on isbn + title combination
+  - NOT NULL on title
+  - ENUM values stored as VARCHAR
+
+  Indexes:
+  - id (primary)
+  - title (for search)
+  - console (for filtering)
+  - genre (for filtering)
+  - completion_status (for filtering)
+  - format (for filtering)
+  - publisher (for filtering)
+  - isbn (for duplicate detection)
+
+  Current Records: 100
+end note
+
+card "Enumerations (Stored as VARCHAR)" {
+  [ReadStatus: UNREAD, IN_PROGRESS, READ]
+  [CompletionStatus: BACKLOG, PLAYING, BEATEN, DROPPED]
+  [Format: PHYSICAL, DIGITAL]
+}
+
+note bottom of "Enumerations (Stored as VARCHAR)"
+  All enum values are stored as VARCHAR in the database
+  Mapping handled by Hibernate @Enumerated(EnumType.STRING)
+
+  Advantages:
+  - Human-readable in database
+  - Easy debugging
+  - Safe for migrations
+
+  Alternative: EnumType.ORDINAL (stores 0, 1, 2, ...)
+  Not used - harder to maintain
+end note
+
+card "Shared Characteristics (BaseEntity)" {
+  [All tables inherit: id, created_at, updated_at]
+  [@MappedSuperclass manages timestamps]
+  [@PrePersist sets created_at on insert]
+  [@PreUpdate sets updated_at on modification]
+}
+
+database "MySQL 8.0+\ncollection_tracker" {
+}
+
+== Data Distribution ==
+
+card "Total Records: 299" {
+  [Books: 99 records]
+  [Comics: 100 records]
+  [Video Games: 100 records]
+}
+
+== Duplicate Detection ==
+
+note bottom
+  **Duplicate Detection Strategy:**
+
+  All tables use composite unique key:
+  UNIQUE INDEX on (isbn + title)
+
+  Logic in application:
+  existsByIsbnAndTitleIgnoreCase(isbn, title)
+
+  This prevents adding the same item twice
+  based on ISBN and title match
+
+  Note: Comics may not always have ISBN
+  In those cases, title + series + issue_number
+  acts as unique identifier
+end note
+
+== Data Types Summary ==
+
+card "Data Type Mapping" {
+  [id: BIGINT → Java Long]
+  [titles/names: VARCHAR(255) → Java String]
+  [enum fields: VARCHAR(20) → Java Enum]
+  [numeric fields: INT → Java Integer]
+  [large text: TEXT → Java String]
+  [timestamps: DATETIME → Java LocalDateTime]
+}
+
+== Indexing Strategy ==
+
+card "Indexes for Performance" {
+  [Primary Key Indexes: Automatic on id]
+  [Search Indexes: title (case-insensitive)]
+  [Filter Indexes: genre, status, format, console]
+  [Unique Index: (isbn, title) for duplicates]
+}
+
+@enduml
