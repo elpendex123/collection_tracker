@@ -173,9 +173,52 @@ The Jenkinsfile executes:
 - View console output for logs
 - Scroll down to see test reports and artifacts
 
+### Viewing Results
+
+- Click build number in Build History to watch console output
+- Successful builds show blue ball icon
+- Failed builds show red ball icon
+- Artifacts section shows generated JAR file
+
+### Expected Build Output
+
+Successful pipeline execution shows:
+```
+[Pipeline] stage (Checkout)
+[Pipeline] stage (Build)
+[Pipeline] stage (Test)
+[Pipeline] stage (Package)
+BUILD SUCCESS
+```
+
 ### Troubleshooting Jenkins Builds
 
 - **Java version mismatch**: Verify JDK 17 in Manage Jenkins → Tools Configuration
 - **Port already in use**: Kill existing process or change port in application.properties
 - **MySQL connection errors**: Ensure MySQL is running and credentials are correct
 - **Permission denied on gradlew**: Run `chmod +x gradlew` in repository
+- **gradle-wrapper.jar not found**: Ensure gradle wrapper files are committed to git
+
+## Quick Verification Checklist
+
+After setup, verify everything works:
+
+```bash
+# 1. Database
+mysql -u collectionuser -p collection_tracker -e "SHOW TABLES;"
+
+# 2. Application (should show Home dashboard)
+curl http://localhost:8081/
+
+# 3. REST API (should return 99 books)
+curl http://localhost:8081/api/books | jq 'length'
+
+# 4. Search (should find Dune)
+curl 'http://localhost:8081/api/books/search?title=Dune' | jq '.[].title'
+
+# 5. Jenkins build
+# Visit http://localhost:8080/job/collection-tracker/
+# Click "Build Now" and watch it succeed
+```
+
+✅ All checks passing = Phase 1 complete!

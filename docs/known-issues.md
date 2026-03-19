@@ -147,6 +147,61 @@ git remote set-url origin git@github.com:username/collection_tracker.git
 
 ---
 
+## Jenkins Build: Missing gradle-wrapper.jar
+
+### Issue
+Jenkins build fails with:
+
+```
+Error: Unable to access jarfile /var/lib/jenkins/workspace/collection_tracker/gradle/wrapper/gradle-wrapper.jar
+```
+
+### Cause
+The gradle wrapper JAR file was not committed to git and therefore not available when Jenkins cloned the repository.
+
+### Solution
+Added `gradle/wrapper/gradle-wrapper.jar` to git repository using force add:
+
+```bash
+git add -f gradle/wrapper/gradle-wrapper.jar
+git commit -m "Add gradle wrapper JAR for Jenkins builds"
+```
+
+Gradle wrapper files are essential for the `gradlew` script to function without requiring Gradle to be pre-installed.
+
+---
+
+## Jenkins JDK Tool Reference
+
+### Issue
+Jenkins build fails with:
+
+```
+Tool type "jdk" does not have an install of "JDK17" configured
+```
+
+### Cause
+The Jenkinsfile referenced a JDK tool name that didn't match the Jenkins configuration.
+
+### Solution
+Updated Jenkinsfile to use the correct JDK tool name configured in Jenkins:
+
+```groovy
+// Changed from:
+tools {
+    jdk 'JDK17'
+}
+
+// To:
+tools {
+    jdk 'Java'
+}
+```
+
+Verify the JDK tool name in your Jenkins instance at: **Manage Jenkins → Tools Configuration → JDK installations**
+
+---
+
 ## Thymeleaf Template Rendering Error
 
 ### Issue

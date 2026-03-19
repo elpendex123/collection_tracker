@@ -2,6 +2,26 @@
 
 Welcome to the Collection Tracker documentation. This application helps you track your personal collection of books, comics, and video games.
 
+## Project Status
+
+**Phase 1: ✅ COMPLETE**
+
+All core functionality is implemented and tested:
+- ✅ MySQL database with 3 tables (books, comics, video_games)
+- ✅ Spring Boot REST API with full CRUD operations
+- ✅ Thymeleaf server-side HTML rendering
+- ✅ Search and filter endpoints
+- ✅ Bash CLI scripts for terminal access
+- ✅ Jenkins CI/CD pipeline for automated builds
+- ✅ 299 sample items loaded (99 books, 100 comics, 100 games)
+
+**Phase 2: AWS EKS Deployment (Future)**
+- Dockerization
+- AWS ECR image registry
+- Kubernetes manifests
+- RDS MySQL database
+- EKS cluster deployment
+
 ## Documentation Index
 
 | Document | Description |
